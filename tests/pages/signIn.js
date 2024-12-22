@@ -22,10 +22,11 @@ class Signin {
         console.log("Login button clicked");
     }
     async otpfunction() {
+        console.log("Entering otp function")
         const otpPopUp = await this.page.waitForSelector('.otp-main-container', { timeout: 10000 }).then(() => true).catch(() => false);
         if (otpPopUp) {
             console.log("OTP pop-up shown.");
-            const email = 'sri123@yopmail.com';
+            const email = 'userrani@yopmail.com';
             let otpResponse;
             try {
                 otpResponse = await this.request.get(`https://sandbox.getfares.com/api/Configuration/EmailVerification/GetOTPByEmail?EmailId=${email}`);

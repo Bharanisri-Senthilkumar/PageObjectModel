@@ -14,7 +14,7 @@
         "cabinPreferenceType": "Preferred",
         "stopOver": "DirectFlight",
         "IsBrandFareEnable": false,
-        "includeCarrier": "EK",
+        "includeCarrier": "AA",
         "airTravelType": "OneWay",
         "includeBaggage": true,
         "includeMiniRules": true,

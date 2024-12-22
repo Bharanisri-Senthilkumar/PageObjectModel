@@ -5,10 +5,11 @@ import Logindata from '../Json/logindata.json';
 import FlightSearch from '../pages/flights.js';
 import SearchResultPage from '../pages/SearchResultsPage.js';
 import Searchapi from '../pages/SearchAPI.js';
+import { request } from 'http';
 
 let browser, context, page;
 
-test.beforeAll(async () => {
+test.beforeAll(async ({request}) => {
   test.setTimeout(600000);
 
   // Launch browser and set up context/page
@@ -17,7 +18,7 @@ test.beforeAll(async () => {
   page = await context.newPage();
 
   // Perform login actions
-  const signinPage = new Signin(page);
+  const signinPage = new Signin(page,request);
   await signinPage.navigatetopage();
   await expect(page).toHaveTitle("Get Fares - Same Flights Lowest Fares");
   await signinPage.logincredentials(Logindata.Username, Logindata.Password);

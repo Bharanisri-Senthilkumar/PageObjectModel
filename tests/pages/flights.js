@@ -175,8 +175,8 @@ class FlightSearch {
 
         for (let i = 0; i < carrier.length; i++) {
             await this.page.locator('[id="ex airline select"]').fill(carrier[i]);
-            await this.page.locator('[id="ex airline select"]').press('Enter');
-            await this.page.locator(`text=${carrier[i]}`).click();
+            await this.page.locator('[id="ex airline select"]').nth(0).press('Enter');
+            await this.page.locator(`text=${carrier[i]}`).nth(0).click();
         }
     }
 
