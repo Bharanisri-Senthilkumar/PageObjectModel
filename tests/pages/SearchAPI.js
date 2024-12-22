@@ -5,6 +5,7 @@ class Searchapi {
         this.request = request;
     }
     async SearchApiResponse(data) {
+        
         console.log("SearchAPI")
         console.log(data)
         const inputdata = {
@@ -34,8 +35,9 @@ class Searchapi {
                 timeout: 60000
             })
 
-            const searchResponse = await SearchResponse.json()
+            var searchResponse = await SearchResponse.json()
         }
+       return searchResponse;
     }
 }
 export default Searchapi;

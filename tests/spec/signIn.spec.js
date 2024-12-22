@@ -5,7 +5,7 @@ import Logindata from '../Json/logindata.json';
 import FlightSearch from '../pages/flights.js';
 import SearchResultPage from '../pages/SearchResultsPage.js';
 import Searchapi from '../pages/SearchAPI.js';
-import { request } from 'http';
+
 
 let browser, context, page;
 
@@ -41,10 +41,12 @@ test.describe('Flight Search Tests',() => {
       const search = new FlightSearch(page);
       await search.searchfunction(data);
       console.log(data);
-      const APIsearch = new Searchapi(request)
-      await APIsearch.SearchApiResponse(data)
-      const searchResult = new SearchResultPage(page);
-      await searchResult.SearchResults();
+    //   const APIsearch = new Searchapi(request)
+    //  const apires= await APIsearch.SearchApiResponse(data)
+    //  console.log(`this is api  ${apires.traceId}`)
+
+      const searchResult = new SearchResultPage(page,request);
+      await searchResult.SearchResults(data);
     });
   });
 });
