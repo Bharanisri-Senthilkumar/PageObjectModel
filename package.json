@@ -1,0 +1,41 @@
+{
+ 
+  "name": "page-object-model-concepts",
+ 
+  "version": "1.0.0",
+ 
+  "main": "index.js",
+ 
+  "scripts": {},
+ 
+  "keywords": [],
+ 
+  "author": "",
+ 
+  "license": "ISC",
+ 
+  "description": "",
+ 
+  "devDependencies": {
+ 
+   
+  "@playwright/test": "^1.49.1",
+ 
+   
+  "@types/node": "^22.9.0",
+ 
+   
+  "allure-playwright": "^3.0.7"
+ 
+  },
+ 
+  "dependencies": {
+ 
+   
+  "allure-js-commons": "^3.0.7",
+ 
+   
+  "dotenv": "^16.4.5"
+ 
+  }
+}

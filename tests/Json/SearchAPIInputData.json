@@ -1,0 +1,26 @@
+[
+    {
+        "originDestinations": [
+            {
+                "departureDateTime": "2025-02-20",
+                "origin": "LAX",
+                "destination": "LAS"
+            }
+        ],
+        "adultCount": 1,
+        "childCount": 0,
+        "infantCount": 0,
+        "cabinClass": "Economy",
+        "cabinPreferenceType": "Preferred",
+        "stopOver": "DirectFlight",
+        "IsBrandFareEnable": false,
+        "includeCarrier": "EK",
+        "airTravelType": "OneWay",
+        "includeBaggage": true,
+        "includeMiniRules": true,
+        "specialFareTypes": [
+            "GeneralFare"
+        ],
+        "nationality": ""
+    }
+]
