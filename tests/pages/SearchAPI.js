@@ -2,7 +2,7 @@ import SearchAPIInputData from '../Json/SearchAPIInputData.json';
 import {expect} from '@playwright/test';
 class Searchapi {
     constructor(request) {
-        this.request = request
+        this.request = request;
     }
     async SearchApiResponse(data) {
         console.log("SearchAPI")
