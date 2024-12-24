@@ -100,7 +100,7 @@ class FlightSearch {
             const randomIndex = Math.floor(Math.random() * count);
             console.log("Randomly index ", randomIndex);
             await validDateButtons.nth(randomIndex).click();
-            const dateCaptured = await this.page.locator('.station-text').nth(2).textContent();
+      //      const dateCaptured = await this.page.locator('.station-text').nth(2).textContent();
 
             //   data.originDestinations[0].departureDateTime = existDate
 

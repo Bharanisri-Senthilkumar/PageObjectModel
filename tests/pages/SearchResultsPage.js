@@ -32,6 +32,7 @@ class SearchResultPage {
             expect(UIAirline[0]).toBe(Airline)
             await this.page.locator('text="Flight Details"').nth(i).click()
             const UIOriginText = await this.page.locator('.flt-origin').nth(i).textContent();
+          //  Const UIDestinationText=
             expect(UIOriginText.trim()).toBe(apires.flights[i].segGroups[0].origin);
             console.log("origin checked")
             
