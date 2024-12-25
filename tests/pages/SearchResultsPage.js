@@ -32,9 +32,15 @@ class SearchResultPage {
             expect(UIAirline[0]).toBe(Airline)
             await this.page.locator('text="Flight Details"').nth(i).click()
             const UIOriginText = await this.page.locator('.flt-origin').nth(i).textContent();
-          //  Const UIDestinationText=
+            const UIDestinationText=await this.page.locator('.flt-destination').nth(i).textContent();
             expect(UIOriginText.trim()).toBe(apires.flights[i].segGroups[0].origin);
+            expect(UIDestinationText.trim()).toBe(apires.flights[i].segGroups[0].destination)
             console.log("origin checked")
+            const Fnum =await this.page.locator('div.col-8 .flt-number').nth(i).textContent();
+            const flightNum=Fnum.split("-").map(item=>item.trim())
+            expect(flightNum[1]).toBe(apires.flights[i].segGroups[0].segs[0].flightNum)
+            console.log("flight NUM checked")
+
             
         }
     }
