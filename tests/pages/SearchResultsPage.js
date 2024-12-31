@@ -22,6 +22,7 @@ class SearchResultPage {
         await this.searching()
         const ItineraryContainer = await this.page.locator('#itinerary_container').count()
         console.log(ItineraryContainer)
+        let j = 0;
         for (let i = 0; i < ItineraryContainer; i++) {
             console.log("enters the for lopp of validate UI")
             const Airline = apires.flights[i].airline
@@ -39,9 +40,21 @@ class SearchResultPage {
             const Fnum =await this.page.locator('div.col-8 .flt-number').nth(i).textContent();
             const flightNum=Fnum.split("-").map(item=>item.trim())
             expect(flightNum[1]).toBe(apires.flights[i].segGroups[0].segs[0].flightNum)
-            console.log("flight NUM checked")
+            const eachSegment=await this.page.locator('.flt-bkg-information-panel').count()
+            console.log(eachSegment)
+            let depterminalText,ariterminalText,depterminalNumber,ariterminalNumber;
+            for(let x = 0 ;x < eachSegment  ; x++)
+            {
+            depterminalText = await this.page.locator('.flt-airport-nm').nth(j).textContent();
+            ariterminalText = await this.page.locator('.flt-airport-nm').nth(j++).textContent();
+            depterminalNumber = depterminalText.match(/Terminal\s(\d+)/)[1];
+            ariterminalNumber = ariterminalText.match(/Terminal\s(\d+)/)[1];
+            //console.log("flight NUM checked")
+            expect(depterminalNumber).toBe(apires.flights[i].segGroups[0].segs[x].depTerminal)
+            expect(ariterminalNumber).toBe(apires.flights[i].segGroups[0].segs[x].arrTerminal)
+            console.log("One segment checked")
+        }
 
-            
         }
     }
     async searching() {
