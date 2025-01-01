@@ -50,8 +50,8 @@ class SearchResultPage {
             depterminalNumber = depterminalText.match(/Terminal\s(\d+)/)[1];
             ariterminalNumber = ariterminalText.match(/Terminal\s(\d+)/)[1];
             //console.log("flight NUM checked")
-            expect(depterminalNumber).toBe(apires.flights[i].segGroups[0].segs[x].depTerminal)
-            expect(ariterminalNumber).toBe(apires.flights[i].segGroups[0].segs[x].arrTerminal)
+            expect(depterminalNumber).toBe(apires.flights[i].segGroups[0].segs[0].depTerminal)
+            expect(ariterminalNumber).toBe(apires.flights[i].segGroups[0].segs[0].arrTerminal)
             console.log("One segment checked")
         }
 
