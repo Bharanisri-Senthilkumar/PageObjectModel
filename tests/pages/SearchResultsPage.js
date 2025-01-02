@@ -70,7 +70,6 @@ class SearchResultPage {
             console.log("Cabin is correct")
 
         }
-
         }
     }
     async searching() {
