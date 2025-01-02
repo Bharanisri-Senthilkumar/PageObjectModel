@@ -20,11 +20,14 @@ class SearchResultPage {
     async ValidateUI(data) {
         const apires = await this.APIresponse(data)
         await this.searching()
-        const ItineraryContainer = await this.page.locator('#itinerary_container').count()
-        console.log(ItineraryContainer)
+        const ItineraryContainer = await this.page.locator('#itinerary_container')
+        const Itinerarycount= await ItineraryContainer.count()
+
+        console.log(`Itinerarycount ${Itinerarycount}`)
         let j = 0;
-        for (let i = 0; i < ItineraryContainer; i++) {
+        for (let i = 0; i < Itinerarycount; i++) {
             console.log("enters the for lopp of validate UI")
+            //to check airline
             const Airline = apires.flights[i].airline
             const UIAirlineText = await this.page.locator('.airline_details').nth(i).textContent();
             const UIAirline = UIAirlineText.split('|').map(item => item.trim());
@@ -32,27 +35,40 @@ class SearchResultPage {
             console.log(`airline ${Airline}, UIAirlineText ${UIAirlineText}`)
             expect(UIAirline[0]).toBe(Airline)
             await this.page.locator('text="Flight Details"').nth(i).click()
+            //to check orign and destination
             const UIOriginText = await this.page.locator('.flt-origin').nth(i).textContent();
             const UIDestinationText=await this.page.locator('.flt-destination').nth(i).textContent();
             expect(UIOriginText.trim()).toBe(apires.flights[i].segGroups[0].origin);
             expect(UIDestinationText.trim()).toBe(apires.flights[i].segGroups[0].destination)
             console.log("origin checked")
+            //to check the flight number
             const Fnum =await this.page.locator('div.col-8 .flt-number').nth(i).textContent();
             const flightNum=Fnum.split("-").map(item=>item.trim())
             expect(flightNum[1]).toBe(apires.flights[i].segGroups[0].segs[0].flightNum)
-            const eachSegment=await this.page.locator('.flt-bkg-information-panel').count()
+            //to check the terminal
+            const eachSegment=await ItineraryContainer.nth(i).locator('.flt-bkg-information-panel').count()
             console.log(eachSegment)
             let depterminalText,ariterminalText,depterminalNumber,ariterminalNumber;
             for(let x = 0 ;x < eachSegment  ; x++)
             {
+                console.log(j)
             depterminalText = await this.page.locator('.flt-airport-nm').nth(j).textContent();
-            ariterminalText = await this.page.locator('.flt-airport-nm').nth(j++).textContent();
+            ariterminalText = await this.page.locator('.flt-airport-nm').nth(j+1).textContent();
             depterminalNumber = depterminalText.match(/Terminal\s(\d+)/)[1];
             ariterminalNumber = ariterminalText.match(/Terminal\s(\d+)/)[1];
             //console.log("flight NUM checked")
-            expect(depterminalNumber).toBe(apires.flights[i].segGroups[0].segs[0].depTerminal)
-            expect(ariterminalNumber).toBe(apires.flights[i].segGroups[0].segs[0].arrTerminal)
+            expect(depterminalNumber).toBe(apires.flights[i].segGroups[0].segs[x].depTerminal)
+            expect(ariterminalNumber).toBe(apires.flights[i].segGroups[0].segs[x].arrTerminal)
             console.log("One segment checked")
+            j+=2
+            //to check the cabin class without branded fares.
+            const UICabin= await this.page.locator('.card_class').nth(i).textContent()
+            console.log(`UICabin value is ${UICabin}`)
+            const APICabin = apires.flights[i].fareGroups[0].segInfos[0].cabinClass
+            console.log(`API Cabin Class ${APICabin}`)
+            expect(UICabin.trim()).toBe(APICabin)
+            console.log("Cabin is correct")
+
         }
 
         }
