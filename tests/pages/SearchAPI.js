@@ -34,7 +34,7 @@ class Searchapi {
                 data: senddata,
                 timeout: 60000
             })
-
+            expect(SearchResponse.status()).toBe(200)
             var searchResponse = await SearchResponse.json()
         }
        return searchResponse;
