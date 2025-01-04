@@ -1,5 +1,7 @@
 import { expect } from '@playwright/test';
 import Searchapi from '../pages/SearchAPI.js';
+import FlightSearch from '../pages/flights.js';
+
 class SearchResultPage {
     constructor(page, request) {
         this.page = page
@@ -17,6 +19,28 @@ class SearchResultPage {
         console.log(`this is api  ${apires.traceId}`)
         return apires;
     }
+    async formatDate(input) {
+        // Remove ordinal suffixes (st, nd, rd, th)
+        const cleanedDate = input.replace(/(st|nd|rd|th)/g, '').trim();
+    
+        // Parse the cleaned date into a Date object
+        const date = new Date(cleanedDate);
+    
+        // Check if the date is valid
+        if (isNaN(date)) {
+            throw new Error('Invalid date format');
+        }
+    
+        // Extract year, month, and day
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const day = String(date.getDate()).padStart(2, '0');
+    
+        // Return the formatted date as YYYY-MM-DD
+        return `${year}-${month}-${day}`;
+    }
+    
+    
     async ValidateUI(data) {
         const apires = await this.APIresponse(data)
         await this.searching()
@@ -68,6 +92,35 @@ class SearchResultPage {
             console.log(`API Cabin Class ${APICabin}`)
             expect(UICabin.trim()).toBe(APICabin)
             console.log("Cabin is correct")
+            //to check the departure date and arrival date
+            let UIDepartDatecount = await this.page.locator('.flt-date').count()
+            console.log(`UIDepartDateCount ${UIDepartDatecount}`)
+            for(let k =0; k< UIDepartDatecount;k+=3){
+            const UIDepartDateFulltext = await this.page.locator('.flt-date').nth(k).textContent()
+            const UIDepartDate=UIDepartDateFulltext.split(',')[1]
+            console.log(UIDepartDate)
+            const departDate = await this.formatDate(UIDepartDate)
+            console.log(`UI Depart Date ${departDate}`)
+            const UIArrivalDateFulltext = await this.page.locator('.flt-date').nth(k+2).textContent()
+            const UIArrivalDate=UIArrivalDateFulltext.split(',')[1]
+            console.log(UIArrivalDate)
+            const ArrivalDate = await this.formatDate(UIArrivalDate)
+            console.log(`UI Arrival Date ${ArrivalDate}`)
+            const APIDepartdate =apires.flights[i].segGroups[0].segs[x].departureOn.split('T')[0]
+            const APIArivalDate=apires.flights[i].segGroups[0].segs[x].arrivalOn.split('T')[0]
+            console.log(`APIDepartdate ${APIDepartdate} and APIArivalDate ${APIArivalDate}`)
+            expect(departDate).toBe(APIDepartdate)
+            expect(ArrivalDate).toBe(APIArivalDate)
+            //to check the Equipment 
+            const Eqpcount=await this.page.locator('.flt-number').count()
+            for (let l=0;l<Eqpcount;l++){
+            const uiEqpType=await this.page.locator('.flt-number').nth(l+1).textContent()
+            const uiEqpsplit= uiEqpType.split('-')[1]
+            console.log(`UI Eqp type ${uiEqpsplit}`)
+            const APIEqpType=apires.flights[i].segGroups[0].segs[x].eqpType
+            expect(uiEqpsplit.trim()).toBe(APIEqpType)
+            }
+            }
 
         }
         }
